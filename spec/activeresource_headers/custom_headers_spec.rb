@@ -36,17 +36,28 @@ describe ActiveresourceHeaders::CustomHeaders do
     end
   end
 
-  it "adds #with_headers chainable method" do
-    unset_const(:Profile)
-    class Profile < ActiveResource::Base
-      include ActiveresourceHeaders::CustomHeaders
-      self.site = REMOTE_HOST
+  describe "#with_headers" do
+    before(:each) do
+      unset_const(:Profile)
+      class Profile < ActiveResource::Base
+        include ActiveresourceHeaders::CustomHeaders
+        self.site = REMOTE_HOST
+      end
+      FakeWeb.register_uri(:get, "#{REMOTE_HOST}/profiles.json", body: [].to_json)
+      Profile.with_headers('Authorization' => 'OAuth2 token', 'Client-Id' => 'xyz').find(:all)
     end
-    FakeWeb.register_uri(:get, "#{REMOTE_HOST}/profiles.json", body: [].to_json)
+    it "is chainable method for adding custom headers for the request" do
+      FakeWeb.last_request["authorization"].should  eq('OAuth2 token')
+      FakeWeb.last_request["client-id"].should      eq('xyz')
+    end
 
-    Profile.with_headers('Authorization' => 'OAuth2 token', 'Client-Id' => 'xyz').find(:all)
-    FakeWeb.last_request["authorization"].should eq('OAuth2 token')
-    FakeWeb.last_request["client-id"].should eq('xyz')
+    it "don't remembers it's custom headers between requests" do
+      FakeWeb.register_uri(:get, "#{REMOTE_HOST}/profiles.json?hello=world", body: [].to_json)
+      Profile.find(:all, params: {hello: 'world'})
+      FakeWeb.last_request["authorization"].should  be_nil
+      FakeWeb.last_request["client-id"].should      be_nil
+    end
+
   end
 
 end
