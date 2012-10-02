@@ -1,3 +1,6 @@
+[![Build Status](https://secure.travis-ci.org/denyago/activeresource_headers.png)](http://travis-ci.org/denyago/activeresource_headers)
+[![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/denyago/activeresource_headers)
+
 # Activeresource Headers
 
 Add ability to send custom headers on each http request by an ActiveResource model.
