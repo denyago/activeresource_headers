@@ -34,7 +34,7 @@ module ActiveresourceHeaders
         @custom_connection = super
         toggle_default_header
         set_headers
-        @with_headers.clear
+        @with_headers = nil
         @custom_connection
       end
 
