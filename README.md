@@ -4,7 +4,7 @@ Add ability to send custom headers on each http request by an ActiveResource mod
 
 There are two ways of setting headers.
   * class method ```custom_headers do ... end``` in a model, that is an ActiveResource::Base kind
-  * Chainable method ```with_headers```, that can be putten between model class and ```find``` method
+  * chainable method ```with_headers```, that can be putten between model class and ```find``` method
 
 ## Examples
 
@@ -22,7 +22,7 @@ There are two ways of setting headers.
 
   Person.find(:all) #=> will add header "My-Time: 2012-10-02 18:56:18 +0300"
 
-  Person.with_headers("My-Time" => "to drink!", "Age" => "25+")
+  Person.with_headers("My-Time" => "to drink!", "Age" => "25+").find(:all)
     #=> will add headers "My-Time: to drink!" and "Age: 25+"
 ```
 
