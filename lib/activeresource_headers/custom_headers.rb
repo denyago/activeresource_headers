@@ -23,14 +23,12 @@ module ActiveresourceHeaders
         self
       end
 
-    protected
-
       # This kind of ActiveResource::Base.connection gets connection
       # by <tt>super</tt> and restores it's default header, then it
       # sets all the custom headers and clears @with_headers.
       #
       # Returns #ActiveResource::Connection
-      def connection
+      def connection(*args)
         @custom_connection = super
         toggle_default_header
         set_headers

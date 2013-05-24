@@ -34,6 +34,13 @@ describe ActiveresourceHeaders::CustomHeaders do
       Profile.with_headers(time: 'Soon!').find(:all)
       FakeWeb.last_request[:time].should eq('Soon!')
     end
+
+    it 'can save results' do
+      FakeWeb.register_uri(:post, "#{REMOTE_HOST}/profiles.json", body: {post: {body: 'The post'}}.to_json)
+      profile = Profile.create(body: 'The post')
+      profile.body.should eq('The post')
+      FakeWeb.last_request[:time].should eq('yesterday')
+    end
   end
 
   describe "#with_headers" do
