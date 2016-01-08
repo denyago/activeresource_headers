@@ -1,18 +1,12 @@
 require 'rspec'
 require 'fake_web'
-
 require 'activeresource_headers'
-
 require 'active_resource'
 require 'active_support/inflector'
 
+FakeWeb.allow_net_connect = false
+
 RSpec.configure do |config|
-  config.color_enabled = true
-
-  config.before(:suite) do
-    FakeWeb.allow_net_connect = false
-  end
-
   config.after(:each) do
     FakeWeb.clean_registry
   end

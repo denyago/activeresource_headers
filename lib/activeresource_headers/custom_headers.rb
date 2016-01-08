@@ -55,6 +55,5 @@ module ActiveresourceHeaders
         @custom_connection.send(:default_header).update(headers)
       end
     end
-
   end
 end
